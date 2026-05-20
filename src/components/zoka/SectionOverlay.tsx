@@ -745,7 +745,71 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
         <span className="text-muted-foreground">privacy by construction.</span>
       </>
     ),
-    body: <TechAccordion />,
+    body: (
+      <div className="space-y-12">
+        <TechAccordion />
+        <div>
+          <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-muted-foreground mb-5">
+            Read the full specification
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {[
+              {
+                id: "wp", tag: "Technical",
+                name: "Whitepaper",
+                desc: "Formal protocol specification, 12 pages. Cryptographic stack, consensus, token economics, anonymity functions.",
+                version: "v1.0",
+                href: "/ZOKA_Whitepaper_v1.0.pdf",
+                cta: "Read whitepaper",
+                Icon: FileText,
+              },
+              {
+                id: "lp", tag: "For everyone",
+                name: "Litepaper",
+                desc: "Plain-language companion, 5 pages. What ZOKA does, what it doesn't, how to use it. No math required.",
+                version: "v1.0",
+                href: "/ZOKA_Litepaper_v1.0.pdf",
+                cta: "Read litepaper",
+                Icon: BookOpen,
+              },
+            ].map((d) => {
+              const Icon = d.Icon;
+              return (
+                <a
+                  key={d.id}
+                  href={d.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative flex flex-col justify-between p-6 border border-border hover:border-foreground transition-colors min-h-[200px]"
+                >
+                  <div className="flex items-start justify-between">
+                    <Icon className="w-5 h-5 text-foreground/80" />
+                    <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-muted-foreground">
+                      {d.tag}
+                    </span>
+                  </div>
+                  <div className="mt-6">
+                    <div className="text-2xl font-extralight text-foreground">{d.name}</div>
+                    <div className="text-sm text-muted-foreground font-light mt-2 leading-relaxed">
+                      {d.desc}
+                    </div>
+                  </div>
+                  <div className="mt-6 flex items-center justify-between">
+                    <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-foreground inline-flex items-center gap-2">
+                      {d.cta}
+                      <span className="opacity-60 group-hover:opacity-100 transition-opacity">↗</span>
+                    </span>
+                    <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground/70">
+                      {d.version}
+                    </span>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    ),
   },
   download: {
     eyebrow: "III. DOWNLOAD · ZSILENT CORE",
