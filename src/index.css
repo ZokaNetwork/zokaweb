@@ -1,0 +1,226 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 98%;
+
+    --card: 0 0% 3%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 2%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 0 0% 6%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 0 0% 6%;
+    --muted-foreground: 0 0% 50%;
+
+    --accent: 0 0% 80%;
+    --accent-foreground: 0 0% 0%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 10%;
+    --input: 0 0% 8%;
+    --ring: 0 0% 80%;
+
+    --radius: 0.25rem;
+
+    --gradient-text: linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(0 0% 70%) 50%, hsl(0 0% 45%) 100%);
+    --gradient-glow: radial-gradient(ellipse at center, hsl(0 0% 100% / 0.06), transparent 60%);
+    --gradient-violet: radial-gradient(circle at 50% 50%, hsl(0 0% 100% / 0.04), transparent 70%);
+
+    --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  html.light {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 4%;
+
+    --card: 0 0% 98%;
+    --card-foreground: 0 0% 4%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 4%;
+
+    --primary: 0 0% 4%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 4%;
+
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 40%;
+
+    --accent: 0 0% 20%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 90%;
+    --input: 0 0% 92%;
+    --ring: 0 0% 20%;
+
+    --gradient-text: linear-gradient(135deg, hsl(0 0% 0%) 0%, hsl(0 0% 30%) 50%, hsl(0 0% 55%) 100%);
+    --gradient-glow: radial-gradient(ellipse at center, hsl(0 0% 0% / 0.06), transparent 60%);
+    --gradient-violet: radial-gradient(circle at 50% 50%, hsl(0 0% 0% / 0.04), transparent 70%);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
+@layer utilities {
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+  .font-sans { font-family: 'Inter', system-ui, sans-serif; }
+
+  .text-gradient {
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(hsl(0 0% 100% / 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(0 0% 100% / 0.04) 1px, transparent 1px);
+    background-size: 100px 100px;
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.2s var(--transition-smooth), transform 1.2s var(--transition-smooth);
+    will-change: opacity, transform;
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+  50% { transform: translate(40px, -30px) scale(1.1); opacity: 1; }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes zk-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes zk-glow {
+  0%, 100% { text-shadow: 0 0 20px hsl(var(--foreground) / 0.15), 0 0 40px hsl(var(--foreground) / 0.05); }
+  50% { text-shadow: 0 0 30px hsl(var(--foreground) / 0.35), 0 0 60px hsl(var(--foreground) / 0.15); }
+}
+
+@keyframes zk-melt {
+  0%   { opacity: 0; filter: blur(14px); transform: translateY(-6px) scaleY(1.15); letter-spacing: 0.25em; }
+  25%  { opacity: 1; filter: blur(0px);  transform: translateY(0)    scaleY(1);    letter-spacing: 0.15em; }
+  65%  { opacity: 1; filter: blur(0px);  transform: translateY(0)    scaleY(1);    letter-spacing: 0.15em; }
+  85%  { opacity: 0.6; filter: blur(6px); transform: translateY(8px)  scaleY(1.4);  letter-spacing: 0.3em; }
+  100% { opacity: 0; filter: blur(18px); transform: translateY(20px) scaleY(2);    letter-spacing: 0.4em; }
+}
+
+@keyframes zk-dot-pulse {
+  0%, 100% { box-shadow: 0 0 8px hsl(160 84% 55% / 0.5), 0 0 16px hsl(160 84% 55% / 0.25); opacity: 0.85; }
+  50%      { box-shadow: 0 0 14px hsl(160 84% 60% / 0.9), 0 0 28px hsl(160 84% 60% / 0.45); opacity: 1; }
+}
+
+@layer utilities {
+  .zk-badge {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: 9999px;
+    background: hsl(var(--foreground) / 0.02);
+    backdrop-filter: blur(8px);
+  }
+  .zk-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: hsl(160 84% 55%);
+    animation: zk-dot-pulse 2.4s ease-in-out infinite;
+  }
+
+  .zk-shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted-foreground)) 0%,
+      hsl(var(--foreground)) 50%,
+      hsl(var(--muted-foreground)) 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: zk-shimmer 4s linear infinite, zk-glow 3s ease-in-out infinite;
+  }
+
+  .zk-melt {
+    display: inline-block;
+    animation: zk-melt 6s ease-in-out infinite;
+    will-change: opacity, filter, transform, letter-spacing;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+
+  .zoka-cta-red {
+    background: linear-gradient(135deg, #5C0F1A 0%, #3F0812 100%);
+    box-shadow:
+      0 0 0 1px hsl(348 60% 20% / 0.6),
+      0 6px 18px -6px hsl(348 70% 15% / 0.55);
+    transition: transform 0.4s var(--transition-smooth), box-shadow 0.4s var(--transition-smooth), filter 0.4s var(--transition-smooth);
+  }
+  .zoka-cta-red:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.15);
+    box-shadow:
+      0 0 0 1px hsl(348 70% 30% / 0.7),
+      0 10px 26px -6px hsl(348 80% 20% / 0.7);
+  }
+}
+
