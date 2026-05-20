@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {
-  X, Monitor, Apple, Github, FileText, BookOpen, Plus, Minus, Terminal,
+  X, Monitor, Github, FileText, BookOpen, Plus, Minus, Terminal,
   Download, Cpu, Server, Boxes, Lock, Eye, EyeOff, ScanLine,
 } from "lucide-react";
 import type { SectionKey } from "./Nav";
@@ -783,18 +783,17 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
             an email, a phone number or a KYC document.
           </p>
           <p className="text-sm text-muted-foreground font-light">
-            Built with Compose Desktop. The same binary ships across Windows, Linux and macOS.
-            Installers are produced by GitHub Actions on each tagged release; the build steps
-            are reproducible from source.
+            Built with Compose Desktop. v0.1.0 ships across Windows and Linux. Installers are
+            produced by GitHub Actions on each tagged release; the build steps are
+            reproducible from source.
           </p>
         </div>
 
-        {/* 3 OS download cards */}
-        <div className="grid gap-4 sm:grid-cols-3">
+        {/* OS download cards */}
+        <div className="grid gap-4 sm:grid-cols-2">
           {[
             { id: "win", name: "Windows", desc: "10 · 11 · Server", badge: ".msi", Icon: Monitor, status: "available" },
             { id: "linux", name: "Linux", desc: "Debian / Ubuntu / Fedora", badge: ".deb / .rpm", Icon: Boxes, status: "available" },
-            { id: "mac", name: "macOS", desc: "Apple Silicon · Intel", badge: ".dmg", Icon: Apple, status: "available" },
           ].map((w) => {
             const Icon = w.Icon;
             return (
@@ -824,18 +823,34 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
           })}
         </div>
 
-        {/* Mobile honesty */}
-        <div className="p-5 border border-border border-dashed">
-          <div className="flex items-center justify-between flex-wrap gap-3">
-            <div>
-              <div className="font-mono text-[11px] tracking-[0.25em] uppercase text-foreground">Mobile</div>
-              <div className="text-sm text-muted-foreground font-light mt-1">
-                Native Android and iOS clients are not built yet. Desktop comes first.
+        {/* Honest status for unshipped platforms */}
+        <div className="space-y-3">
+          <div className="p-5 border border-border border-dashed">
+            <div className="flex items-center justify-between flex-wrap gap-3">
+              <div>
+                <div className="font-mono text-[11px] tracking-[0.25em] uppercase text-foreground">macOS</div>
+                <div className="text-sm text-muted-foreground font-light mt-1">
+                  jpackage builds run on Apple silicon but need code signing for distribution.
+                  Coming in a later release.
+                </div>
               </div>
+              <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-muted-foreground/80">
+                Planned
+              </span>
             </div>
-            <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-muted-foreground/80">
-              Not started
-            </span>
+          </div>
+          <div className="p-5 border border-border border-dashed">
+            <div className="flex items-center justify-between flex-wrap gap-3">
+              <div>
+                <div className="font-mono text-[11px] tracking-[0.25em] uppercase text-foreground">Mobile</div>
+                <div className="text-sm text-muted-foreground font-light mt-1">
+                  Native Android and iOS clients are not built yet. Desktop comes first.
+                </div>
+              </div>
+              <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-muted-foreground/80">
+                Not started
+              </span>
+            </div>
           </div>
         </div>
 
