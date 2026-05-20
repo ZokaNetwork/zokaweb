@@ -30,14 +30,12 @@ const Hero = ({ onCta }: HeroProps) => (
     <div className="absolute bottom-16 md:bottom-20 left-6 md:left-10 z-10 animate-fade-in">
       <button
         onClick={onCta}
-        className="group relative inline-flex items-center gap-3 px-6 py-3 font-mono text-[10px] tracking-[0.3em] uppercase text-white rounded-full zoka-cta-red"
+        className="group inline-flex items-center gap-3 px-6 py-3 border border-foreground/80 hover:bg-foreground hover:text-background transition-colors font-mono text-[10px] tracking-[0.3em] uppercase text-foreground"
         aria-label="Download ZSilent wallet"
       >
-        <span className="relative z-10 flex items-center gap-3">
-          <span className="w-1.5 h-1.5 rounded-full bg-white/90" />
-          Mainnet · Get ZSilent
-          <span className="opacity-70 group-hover:translate-x-1 transition-transform">→</span>
-        </span>
+        <span className="w-1.5 h-1.5 rounded-full bg-foreground" />
+        Mainnet · Get ZSilent
+        <span className="opacity-70 group-hover:translate-x-1 transition-transform">→</span>
       </button>
     </div>
   </section>

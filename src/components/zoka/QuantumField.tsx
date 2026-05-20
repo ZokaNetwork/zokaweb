@@ -35,22 +35,17 @@ const QuantumField = () => {
     // Distribute N nodes on a sphere using the Fibonacci lattice — gives an
     // even, organic-looking distribution similar to the reference image.
     const NODE_COUNT = 42;
-    type Node = { x: number; y: number; z: number; pulse: number; accent: "none" | "green" | "red"; phase: number };
+    type Node = { x: number; y: number; z: number; pulse: number };
     const goldenAngle = Math.PI * (3 - Math.sqrt(5));
     const nodes: Node[] = Array.from({ length: NODE_COUNT }, (_, i) => {
       const y = 1 - (i / (NODE_COUNT - 1)) * 2;
       const r = Math.sqrt(1 - y * y);
       const theta = goldenAngle * i;
-      // ~25% green accents, ~12% red accents — sparse and intentional
-      const roll = Math.random();
-      const accent: Node["accent"] = roll < 0.25 ? "green" : roll < 0.37 ? "red" : "none";
       return {
         x: Math.cos(theta) * r,
         y,
         z: Math.sin(theta) * r,
         pulse: Math.random() * Math.PI * 2,
-        accent,
-        phase: Math.random() * Math.PI * 2,
       };
     });
 
@@ -74,7 +69,7 @@ const QuantumField = () => {
 
       const cx = width / 2;
       const cy = height / 2;
-      const radius = Math.min(width, height) * 0.42;
+      const radius = Math.min(width, height) * 0.48;
 
       // Slow combined rotation
       const ay = t * 0.18;
@@ -119,40 +114,27 @@ const QuantumField = () => {
         }
       }
 
-      // Nodes — tiny luminous points, brighter when in front
+      // Nodes — luminous white points, brighter when in front
       for (let i = 0; i < projected.length; i++) {
         const p = projected[i];
         const n = nodes[i];
         const pulse = 0.5 + 0.5 * Math.sin(t * 1.4 + n.pulse);
-        const size = 1 + p.depth * 1.8 + pulse * 0.6;
-        const alpha = 0.35 + p.depth * 0.55;
+        const size = 1.6 + p.depth * 2.4 + pulse * 0.8;
+        const alpha = 0.7 + p.depth * 0.3;
 
-        // Occasional colored ignition for accent nodes
-        if (n.accent !== "none") {
-          // slow on/off cycle, different per node — only "lit" briefly
-          const cycle = Math.sin(t * 0.6 + n.phase);
-          const lit = Math.max(0, cycle - 0.55) / 0.45; // 0..1, mostly 0
-          if (lit > 0) {
-            const hue = n.accent === "green" ? "150 80% 55%" : "0 80% 55%";
-            const glowAlpha = lit * (0.55 + p.depth * 0.4);
-            // soft halo
-            const grd = ctx.createRadialGradient(p.sx, p.sy, 0, p.sx, p.sy, size * 6);
-            grd.addColorStop(0, `hsl(${hue} / ${glowAlpha})`);
-            grd.addColorStop(1, `hsl(${hue} / 0)`);
-            ctx.fillStyle = grd;
-            ctx.beginPath();
-            ctx.arc(p.sx, p.sy, size * 6, 0, Math.PI * 2);
-            ctx.fill();
-            // colored core
-            ctx.fillStyle = `hsl(${hue} / ${0.5 + lit * 0.5})`;
-            ctx.beginPath();
-            ctx.arc(p.sx, p.sy, size * 1.2, 0, Math.PI * 2);
-            ctx.fill();
-            continue;
-          }
+        // Soft white halo for depth
+        if (p.depth > 0.45) {
+          const haloAlpha = (p.depth - 0.45) * 0.5;
+          const grd = ctx.createRadialGradient(p.sx, p.sy, 0, p.sx, p.sy, size * 4);
+          grd.addColorStop(0, `hsl(0 0% 100% / ${haloAlpha})`);
+          grd.addColorStop(1, `hsl(0 0% 100% / 0)`);
+          ctx.fillStyle = grd;
+          ctx.beginPath();
+          ctx.arc(p.sx, p.sy, size * 4, 0, Math.PI * 2);
+          ctx.fill();
         }
 
-        ctx.fillStyle = `hsl(${fg} / ${alpha})`;
+        ctx.fillStyle = `hsl(0 0% 100% / ${alpha})`;
         ctx.beginPath();
         ctx.arc(p.sx, p.sy, size, 0, Math.PI * 2);
         ctx.fill();
