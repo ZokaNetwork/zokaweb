@@ -239,24 +239,78 @@ const techBlocks: TechBlock[] = [
     id: "08",
     title: "Roadmap",
     content: (
-      <div className="space-y-0">
+      <div className="space-y-8">
         {[
-          { id: "i", name: "Internal devnet", desc: "ZK circuits · single-operator setup · local validators · CLI.", status: "Done" },
-          { id: "ii", name: "Public testnet", desc: "MPC ceremony · CRS digest shipped · permissionless mining.", status: "Done" },
-          { id: "iii", name: "Mainnet v0.1.0", desc: "Public fly.io bootstrap · mainnet manifest signed · ZSilent Core desktop wallet released.", status: "Live" },
-          { id: "iv", name: "Mobile wallets", desc: "Native Android + iOS clients. No ETA — desktop comes first.", status: "Not started" },
-          { id: "v", name: "Anonymous transport", desc: "Tor / I2P + Dandelion++ on the node, end-to-end IP privacy from wallet to peer.", status: "Planned" },
-          { id: "vi", name: "Post-quantum migration", desc: "Today's Groth16 is not PQ-safe. Future ceremony with PQ-friendly primitives.", status: "Research" },
-        ].map((l) => (
-          <div key={l.id} className="grid grid-cols-12 gap-4 py-4 border-b border-border last:border-0">
-            <div className="col-span-2 md:col-span-1 font-mono text-xs text-muted-foreground">{l.id}</div>
-            <div className="col-span-10 md:col-span-4 text-base font-light">{l.name}</div>
-            <div className="col-span-12 md:col-span-5 text-sm text-muted-foreground font-light">{l.desc}</div>
-            <div className="col-span-12 md:col-span-2 font-mono text-[10px] tracking-[0.25em] uppercase text-foreground/80 md:text-right">
-              {l.status}
+          {
+            phase: "Shipped",
+            phaseNote: "Live today",
+            items: [
+              { id: "i", name: "Internal devnet", desc: "ZK circuits · single-operator setup · local validators · CLI.", status: "Done" },
+              { id: "ii", name: "Public testnet", desc: "Permissionless mining · CRS digest shipped · network manifest signed.", status: "Done" },
+              { id: "iii", name: "Mainnet v0.1.0", desc: "Public fly.io bootstrap · ZSilent Core desktop wallet (Windows + Linux) · public block explorer.", status: "Live" },
+            ],
+          },
+          {
+            phase: "H1 2026",
+            phaseNote: "Foundations — no consensus changes",
+            items: [
+              { id: "iv", name: "MPC trusted setup ceremony", desc: "Multi-party ceremony with 5–7 honest contributors to remove the single-operator origin of the current CRS.", status: "Planned" },
+              { id: "v", name: "External cryptographic audit", desc: "Independent review of consensus, ZK circuits and wallet by a recognised security firm. Public report.", status: "Planned" },
+              { id: "vi", name: "GPU prover acceleration", desc: "Migrate the wallet's Groth16 prover to a GPU backend. ~10× faster private transaction signing on mid-range hardware.", status: "Planned" },
+              { id: "vii", name: "Snapshot sync", desc: "Signed chain snapshots so a new node bootstraps in minutes instead of hours.", status: "Planned" },
+            ],
+          },
+          {
+            phase: "H2 2026",
+            phaseNote: "Resilience and mobile",
+            items: [
+              { id: "viii", name: "Tor / I2P transport", desc: "Native anonymous network transport in the node, fulfilling the policy already declared in the mainnet manifest.", status: "Planned" },
+              { id: "ix", name: "Distributed bootstrap nodes", desc: "Bootstrap presence in at least three geographic regions to remove the single-host dependency.", status: "Planned" },
+              { id: "x", name: "ZSilent Core v0.2.0 UX", desc: "Encrypted backup, address book, multi-wallet management, watch-only mode, QR send/receive.", status: "Planned" },
+              { id: "xi", name: "Pool mining (Stratum)", desc: "Smaller, more frequent rewards for casual CPU miners. Pooled hashrate participation.", status: "Planned" },
+              { id: "xii", name: "Light client protocol", desc: "SPV-style verification so mobile clients can use the network without running a full node.", status: "Planned" },
+              { id: "xiii", name: "ZSilent Mobile alpha (Android)", desc: "Kotlin Multiplatform Android client sharing business logic with desktop. Depends on the light client.", status: "Planned" },
+            ],
+          },
+          {
+            phase: "2027",
+            phaseNote: "Deeper cryptography and platform expansion",
+            items: [
+              { id: "xiv", name: "Hard fork: ring size 3 → 16", desc: "Larger anonymity sets for sender privacy. Activation at a pre-announced block height with 60+ days of notice.", status: "Planned" },
+              { id: "xv", name: "Bulletproofs+ migration", desc: "Smaller and faster range proofs. Hard fork because the transaction format changes.", status: "Planned" },
+              { id: "xvi", name: "Halo2 evaluation", desc: "If the H1 2026 trusted setup ceremony does not reach the target contributor count, evaluate a transition to Halo2 (no trusted setup, larger proofs).", status: "Research" },
+              { id: "xvii", name: "ZSilent Core macOS", desc: "DMG / PKG builds with Apple Developer signing. May ship earlier than 2027 if signing infrastructure becomes available.", status: "Planned" },
+              { id: "xviii", name: "Post-quantum research", desc: "Identify lattice-based or hash-based primitives that could replace Groth16/BLS12-381 in a future major upgrade. Not migration yet — exploration only.", status: "Research" },
+            ],
+          },
+        ].map((group) => (
+          <div key={group.phase}>
+            <div className="flex items-baseline justify-between border-b border-border pb-2 mb-2">
+              <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-foreground">
+                {group.phase}
+              </div>
+              <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground">
+                {group.phaseNote}
+              </div>
+            </div>
+            <div className="space-y-0">
+              {group.items.map((l) => (
+                <div key={l.id} className="grid grid-cols-12 gap-4 py-4 border-b border-border last:border-0">
+                  <div className="col-span-2 md:col-span-1 font-mono text-xs text-muted-foreground">{l.id}</div>
+                  <div className="col-span-10 md:col-span-4 text-base font-light">{l.name}</div>
+                  <div className="col-span-12 md:col-span-5 text-sm text-muted-foreground font-light">{l.desc}</div>
+                  <div className="col-span-12 md:col-span-2 font-mono text-[10px] tracking-[0.25em] uppercase text-foreground/80 md:text-right">
+                    {l.status}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         ))}
+        <p className="text-xs text-muted-foreground/80 italic">
+          Periods are intent, not commitment. A privacy chain ships when it is safe to ship —
+          not before. Any consensus change announces an activation block 60+ days in advance.
+        </p>
       </div>
     ),
   },
