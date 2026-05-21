@@ -14,7 +14,7 @@ const WALLET_REPO = `${REPO_BASE}/zsilent-core`;
 const EXPLORER_REPO = `${REPO_BASE}/zokaexplorer`;
 const WEB_REPO = `${REPO_BASE}/zokaweb`;
 const WALLET_RELEASES = `${WALLET_REPO}/releases/latest`;
-const EXPLORER_URL = "https://explorer.zoka.network"; // ← update with the deployed URL when ready
+const EXPLORER_URL = "https://www.zokascan.cc";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  Tech section — 6 consolidated blocks + comparison + roadmap + honest limits
