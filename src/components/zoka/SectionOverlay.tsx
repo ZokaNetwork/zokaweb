@@ -176,7 +176,7 @@ const techBlocks: TechBlock[] = [
       <div className="space-y-0">
         {[
           { id: "i", name: "libp2p transport", desc: "Nodes speak the protocol over standard libp2p TCP. Gossipsub propagates blocks and transactions; identify+ping handle peer health." },
-          { id: "ii", name: "Public bootstrap on fly.io", desc: "A read-only mainnet seed node runs at zoka-bootstrap-zokachain.fly.dev. The signed network manifest (docs/mainnet-network.v1.json) is shipped in every release." },
+          { id: "ii", name: "Public bootstrap on DigitalOcean", desc: "A mainnet bootstrap node (P2P + mining) runs at 159.223.119.216:28080 and a public RPC node at 157.230.5.103:3000. The signed network manifest (docs/mainnet-network.v1.json) is shipped in every release." },
           { id: "iii", name: "Two binaries", desc: "`zoka` is the CLI for wallet ops; `zokahd` is the full-node daemon. Both ship cross-platform; ZSilent Core bundles them and supervises the node from a desktop UI." },
           { id: "iv", name: "Embedded trusted setup", desc: "Groth16 proving/verifying parameters live under trusted-setup/. A DIGEST file lets every operator verify the CRS hash matches the network's expected value." },
           { id: "v", name: "Anonymous transport (planned)", desc: "Tor / I2P + Dandelion++ are on the roadmap for IP-layer privacy. The mainnet manifest already declares the policy so wallets can negotiate it once shipped." },
