@@ -2,7 +2,7 @@
 
 ## Privacy by Default Blockchain — Version 1.0
 
-**Status:** Mainnet v0.1.0 — public, permissionless, mining open.
+**Status:** Mainnet Zenith — public, permissionless, mining open.
 
 ---
 
@@ -25,7 +25,7 @@ Consensus is **RandomX-compatible Proof of Work** (`zoka-randomx-v1`). Block pro
 permissionless, CPU-friendly, and ASIC-resistant. The native token is **ZKA**, capped at
 23,000,000 units, with no premine and no foundation allocation.
 
-This document describes the protocol that the v0.1.0 mainnet implementation actually ships.
+This document describes the protocol that the Mainnet Zenith implementation actually ships.
 Aspirational features are marked **Planned** and not claimed as live.
 
 ---
@@ -35,14 +35,15 @@ Aspirational features are marked **Planned** and not claimed as live.
 This whitepaper describes Version 1.0 of the ZOKA protocol as implemented in the public
 reference codebase at [github.com/ZokaNetwork/ZokaNetwork](https://github.com/ZokaNetwork/ZokaNetwork).
 
-**Live in mainnet v0.1.0:**
+**Live in Mainnet Zenith:**
 
 - Privacy-by-default private transactions (ring sigs + stealth + Pedersen + Bulletproofs + Groth16).
 - RandomX-compatible Proof of Work consensus.
 - libp2p peer-to-peer transport with gossipsub.
 - Public bootstrap node and signed mainnet manifest.
 - Open-source `zoka` CLI and `zokahd` daemon.
-- Cross-platform desktop wallet (ZSilent Core, Windows and Linux).
+- Cross-platform desktop wallet (ZSilent Core v1.1.2, Windows and Linux).
+- Android wallet (ZKAPriv v1.0.0 APK).
 
 **Planned, not yet shipped:**
 
@@ -50,7 +51,7 @@ reference codebase at [github.com/ZokaNetwork/ZokaNetwork](https://github.com/Zo
   is required before this document can be treated as a formally verified specification.
 - Tor / I2P anonymous transport. The mainnet manifest already declares the policy, but the
   runtime currently uses clear TCP.
-- macOS and mobile clients.
+- macOS and iOS clients.
 - Multi-party computation (MPC) ceremony for a fresh trusted setup. The current Groth16
   parameters in `trusted-setup/` ship with a DIGEST file so that every node can verify the
   hash matches the network-expected value; a public MPC remains future work.
@@ -74,7 +75,7 @@ The protocol does **not** defend against:
 2. Post-quantum adversaries. BLS12-381 and the discrete-log assumptions underpinning ring
    signatures and stealth addresses are not post-quantum safe today. Past privacy survives a
    future quantum break; new transactions issued after such a break would not.
-3. A user who reuses zpriv addresses across distinct off-chain identities.
+3. A user who reuses zka1 receive addresses across distinct off-chain identities.
 4. A user with a compromised spending key. There is no recovery backdoor.
 5. Local disk compromise combined with knowledge of the wallet password.
 
@@ -285,15 +286,16 @@ shipped inside every binary release via `include_str!`.
 
 ### 7.2 Public Bootstrap
 
-A read-only mainnet bootstrap node runs at:
+A read-only Mainnet Zenith bootstrap node runs at:
 
 ```
-fly-gru-bootstrap-1
-/ip4/37.16.23.142/tcp/30303/p2p/12D3KooWDbdXAdGxVuSNLicfEf57qTzTRGviDXUbnGKAUV3yT2Xn
+do-nyc-bootstrap-1
+/ip4/159.223.119.216/tcp/28080
 ```
 
-The node exposes a public, read-only HTTP RPC for chain status. It serves discovery and
-initial sync. It does not hold user secrets, broadcast private keys, or arbitrate the chain.
+The active public HTTP RPC is `http://159.223.119.216:3000`; the fallback RPC is
+`http://157.230.5.103:3000`. These endpoints serve discovery and initial sync. They do not
+hold user secrets, broadcast private keys, or arbitrate the chain.
 
 ### 7.3 Embedded Trusted Setup
 
@@ -393,7 +395,7 @@ The network anonymity score is:
 A_net = 1 - P_stem_comp
 ```
 
-This function describes the planned anonymous transport. Mainnet v0.1.0 uses cleartext TCP;
+This function describes the planned anonymous transport. Mainnet Zenith uses cleartext TCP;
 the value of `A_net` is therefore not currently bounded by this expression.
 
 ### 9.3 Timing Linkability
@@ -419,7 +421,7 @@ PI = (S + T + A) / 3
 ```
 
 `PI = 1.0` represents the strongest privacy state achievable by the protocol's combined
-mechanisms. Mainnet v0.1.0 typically operates at `S = H_sender / H_ref` with `A` reduced
+mechanisms. Mainnet Zenith typically operates at `S = H_sender / H_ref` with `A` reduced
 because Tor/I2P is still on the roadmap; users requiring maximum network anonymity should
 operate the node behind their own Tor circuit until the runtime ships native support.
 
@@ -435,14 +437,14 @@ These are limits of the design, not bugs to be fixed:
   retroactively reveal already-issued transactions, but it would compromise new ones.
 - A compromised spending key has no recovery backdoor. Custody is yours, with everything that
   implies. A lost seed is lost funds.
-- Reusing zpriv addresses across distinct off-chain identities can leak associations between
+- Reusing zka1 receive addresses across distinct off-chain identities can leak associations between
   them.
 - The network has no involuntary unmasking path. Only the user holding the key can reveal a
   transaction. This is the design; the cost is that there is no support team that can recover
   funds.
 - Block time is 120 seconds. The first confirmation is not final; settlement systems should
   wait several blocks.
-- The trusted setup parameters in v0.1.0 are bootstrap parameters with a single-operator
+- The trusted setup parameters in Mainnet Zenith are bootstrap parameters with a single-operator
   origin. A multi-party MPC ceremony to produce successor parameters is on the roadmap and
   the protocol is built to allow CRS upgrades without changing the chain history.
 
@@ -454,14 +456,15 @@ These are limits of the design, not bugs to be fixed:
 |--------------------------------------------------------|---------------|
 | Internal devnet                                        | Done          |
 | Public testnet                                         | Done          |
-| Mainnet v0.1.0 (public bootstrap, mining open)         | Live          |
-| ZSilent Core desktop wallet (Windows / Linux)          | Live          |
+| Mainnet Zenith (public bootstrap, mining open)         | Live          |
+| ZSilent Core v1.1.2 desktop wallet (Windows / Linux)   | Live          |
+| ZKAPriv v1.0.0 Android wallet                          | Live          |
 | ZSilent Core desktop wallet (macOS)                    | Planned       |
 | Public block explorer (zokaexplorer)                   | Live          |
 | Native Tor / I2P transport                             | Planned       |
 | External cryptographic audit                           | Planned       |
 | Multi-party trusted-setup ceremony                     | Planned       |
-| Mobile clients (Android / iOS)                         | Not started   |
+| iOS mobile client                                      | Planned       |
 | Post-quantum migration                                 | Research      |
 
 ---
@@ -472,6 +475,7 @@ These are limits of the design, not bugs to be fixed:
 |-------------------|---------------------------------------------------------------------|
 | Network (Rust)    | [github.com/ZokaNetwork/ZokaNetwork](https://github.com/ZokaNetwork/ZokaNetwork) |
 | Desktop wallet    | [github.com/ZokaNetwork/zsilent-core](https://github.com/ZokaNetwork/zsilent-core) |
+| Android wallet    | [github.com/ZokaNetwork/zkapriv](https://github.com/ZokaNetwork/zkapriv) |
 | Block explorer    | [github.com/ZokaNetwork/zokaexplorer](https://github.com/ZokaNetwork/zokaexplorer) |
 | Marketing site    | [github.com/ZokaNetwork/zokaweb](https://github.com/ZokaNetwork/zokaweb)     |
 

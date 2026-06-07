@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   X, Monitor, Github, FileText, BookOpen, Plus, Minus, Terminal,
-  Download, Cpu, Server, Boxes, Lock, Eye, EyeOff, ScanLine,
+  Download, Cpu, Server, Boxes, Lock, Eye, EyeOff, ScanLine, Smartphone, Hash, KeyRound,
 } from "lucide-react";
 import type { SectionKey } from "./Nav";
 
@@ -11,9 +11,14 @@ import type { SectionKey } from "./Nav";
 const REPO_BASE = "https://github.com/ZokaNetwork";
 const NETWORK_REPO = `${REPO_BASE}/ZokaNetwork`;
 const WALLET_REPO = `${REPO_BASE}/zsilent-core`;
+const MOBILE_REPO = `${REPO_BASE}/zkapriv`;
 const EXPLORER_REPO = `${REPO_BASE}/zokaexplorer`;
 const WEB_REPO = `${REPO_BASE}/zokaweb`;
-const WALLET_RELEASES = `${WALLET_REPO}/releases/latest`;
+const MAINNET_NAME = "Mainnet Zenith";
+const ZSILENT_VERSION = "v1.1.2";
+const ZKAPRIV_VERSION = "v1.0.0";
+const WALLET_RELEASES = `${WALLET_REPO}/releases/tag/${ZSILENT_VERSION}`;
+const MOBILE_RELEASES = `${MOBILE_REPO}/releases/tag/${ZKAPRIV_VERSION}`;
 const EXPLORER_URL = "https://www.zokascan.cc";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -176,7 +181,7 @@ const techBlocks: TechBlock[] = [
       <div className="space-y-0">
         {[
           { id: "i", name: "libp2p transport", desc: "Nodes speak the protocol over standard libp2p TCP. Gossipsub propagates blocks and transactions; identify+ping handle peer health." },
-          { id: "ii", name: "Public bootstrap on DigitalOcean", desc: "A mainnet bootstrap node (P2P + mining) runs at 159.223.119.216:28080 and a public RPC node at 157.230.5.103:3000. The signed network manifest (docs/mainnet-network.v1.json) is shipped in every release." },
+          { id: "ii", name: "Public bootstrap on DigitalOcean", desc: "The active seed is 159.223.119.216:28080. Public RPC is available at 159.223.119.216:3000 with 157.230.5.103:3000 as fallback, matching docs/mainnet-network.v1.json." },
           { id: "iii", name: "Two binaries", desc: "`zoka` is the CLI for wallet ops; `zokahd` is the full-node daemon. Both ship cross-platform; ZSilent Core bundles them and supervises the node from a desktop UI." },
           { id: "iv", name: "Embedded trusted setup", desc: "Groth16 proving/verifying parameters live under trusted-setup/. A DIGEST file lets every operator verify the CRS hash matches the network's expected value." },
           { id: "v", name: "Anonymous transport (planned)", desc: "Tor / I2P + Dandelion++ are on the roadmap for IP-layer privacy. The mainnet manifest already declares the policy so wallets can negotiate it once shipped." },
@@ -247,40 +252,42 @@ const techBlocks: TechBlock[] = [
             items: [
               { id: "i", name: "Internal devnet", desc: "ZK circuits · single-operator setup · local validators · CLI.", status: "Done" },
               { id: "ii", name: "Public testnet", desc: "Permissionless mining · CRS digest shipped · network manifest signed.", status: "Done" },
-              { id: "iii", name: "Mainnet v0.1.0", desc: "Public fly.io bootstrap · ZSilent Core desktop wallet (Windows + Linux) · public block explorer.", status: "Live" },
+              { id: "iii", name: "ZOKA Network: Mainnet Zenith", desc: "DigitalOcean bootstrap, public RPC fallback, permissionless mining and public block explorer.", status: "Live" },
+              { id: "iv", name: "ZSilent Core v1.1.2", desc: "Desktop wallet release verified on GitHub with Windows MSI and Linux DEB installers.", status: "Live" },
+              { id: "v", name: "ZKAPriv Android v1.0.0", desc: "Android APK release verified on GitHub; private send / receive, restore, balance and recent activity are live.", status: "Live" },
             ],
           },
           {
             phase: "H1 2026",
             phaseNote: "Foundations — no consensus changes",
             items: [
-              { id: "iv", name: "MPC trusted setup ceremony", desc: "Multi-party ceremony with 5–7 honest contributors to remove the single-operator origin of the current CRS.", status: "Planned" },
-              { id: "v", name: "External cryptographic audit", desc: "Independent review of consensus, ZK circuits and wallet by a recognised security firm. Public report.", status: "Planned" },
-              { id: "vi", name: "GPU prover acceleration", desc: "Migrate the wallet's Groth16 prover to a GPU backend. ~10× faster private transaction signing on mid-range hardware.", status: "Planned" },
-              { id: "vii", name: "Snapshot sync", desc: "Signed chain snapshots so a new node bootstraps in minutes instead of hours.", status: "Planned" },
+              { id: "vi", name: "MPC trusted setup ceremony", desc: "Multi-party ceremony with 5–7 honest contributors to remove the single-operator origin of the current CRS.", status: "Planned" },
+              { id: "vii", name: "External cryptographic audit", desc: "Independent review of consensus, ZK circuits and wallet by a recognised security firm. Public report.", status: "Planned" },
+              { id: "viii", name: "GPU prover acceleration", desc: "Migrate the wallet's Groth16 prover to a GPU backend. ~10× faster private transaction signing on mid-range hardware.", status: "Planned" },
+              { id: "ix", name: "Snapshot sync", desc: "Signed chain snapshots so a new node bootstraps in minutes instead of hours.", status: "Planned" },
             ],
           },
           {
             phase: "H2 2026",
             phaseNote: "Resilience and mobile",
             items: [
-              { id: "viii", name: "Tor / I2P transport", desc: "Native anonymous network transport in the node, fulfilling the policy already declared in the mainnet manifest.", status: "Planned" },
-              { id: "ix", name: "Distributed bootstrap nodes", desc: "Bootstrap presence in at least three geographic regions to remove the single-host dependency.", status: "Planned" },
-              { id: "x", name: "ZSilent Core v0.2.0 UX", desc: "Encrypted backup, address book, multi-wallet management, watch-only mode, QR send/receive.", status: "Planned" },
-              { id: "xi", name: "Pool mining (Stratum)", desc: "Smaller, more frequent rewards for casual CPU miners. Pooled hashrate participation.", status: "Planned" },
-              { id: "xii", name: "Light client protocol", desc: "SPV-style verification so mobile clients can use the network without running a full node.", status: "Planned" },
-              { id: "xiii", name: "ZSilent Mobile alpha (Android)", desc: "Kotlin Multiplatform Android client sharing business logic with desktop. Depends on the light client.", status: "Planned" },
+              { id: "x", name: "Tor / I2P transport", desc: "Native anonymous network transport in the node, fulfilling the policy already declared in the mainnet manifest.", status: "Planned" },
+              { id: "xi", name: "Distributed bootstrap nodes", desc: "Bootstrap presence in at least three geographic regions to remove the single-host dependency.", status: "Planned" },
+              { id: "xii", name: "ZSilent Core UX hardening", desc: "Encrypted backup, address book, multi-wallet management, watch-only mode, QR send/receive.", status: "Planned" },
+              { id: "xiii", name: "ZKAPriv Android hardening", desc: "Post-v1.0.0 iteration for release signing, RPC resilience, transaction history and send / receive ergonomics.", status: "Iterating" },
+              { id: "xiv", name: "Pool mining (Stratum)", desc: "Smaller, more frequent rewards for casual CPU miners. Pooled hashrate participation.", status: "Planned" },
+              { id: "xv", name: "Light client protocol", desc: "SPV-style verification so mobile clients can use the network without running a full node.", status: "Planned" },
             ],
           },
           {
             phase: "2027",
             phaseNote: "Deeper cryptography and platform expansion",
             items: [
-              { id: "xiv", name: "Hard fork: ring size 3 → 16", desc: "Larger anonymity sets for sender privacy. Activation at a pre-announced block height with 60+ days of notice.", status: "Planned" },
-              { id: "xv", name: "Bulletproofs+ migration", desc: "Smaller and faster range proofs. Hard fork because the transaction format changes.", status: "Planned" },
-              { id: "xvi", name: "Halo2 evaluation", desc: "If the H1 2026 trusted setup ceremony does not reach the target contributor count, evaluate a transition to Halo2 (no trusted setup, larger proofs).", status: "Research" },
-              { id: "xvii", name: "ZSilent Core macOS", desc: "DMG / PKG builds with Apple Developer signing. May ship earlier than 2027 if signing infrastructure becomes available.", status: "Planned" },
-              { id: "xviii", name: "Post-quantum research", desc: "Identify lattice-based or hash-based primitives that could replace Groth16/BLS12-381 in a future major upgrade. Not migration yet — exploration only.", status: "Research" },
+              { id: "xvi", name: "Hard fork: ring size 3 → 16", desc: "Larger anonymity sets for sender privacy. Activation at a pre-announced block height with 60+ days of notice.", status: "Planned" },
+              { id: "xvii", name: "Bulletproofs+ migration", desc: "Smaller and faster range proofs. Hard fork because the transaction format changes.", status: "Planned" },
+              { id: "xviii", name: "Halo2 evaluation", desc: "If the H1 2026 trusted setup ceremony does not reach the target contributor count, evaluate a transition to Halo2 (no trusted setup, larger proofs).", status: "Research" },
+              { id: "xix", name: "ZSilent Core macOS", desc: "DMG / PKG builds with Apple Developer signing. May ship earlier than 2027 if signing infrastructure becomes available.", status: "Planned" },
+              { id: "xx", name: "Post-quantum research", desc: "Identify lattice-based or hash-based primitives that could replace Groth16/BLS12-381 in a future major upgrade. Not migration yet — exploration only.", status: "Research" },
             ],
           },
         ].map((group) => (
@@ -323,7 +330,7 @@ const techBlocks: TechBlock[] = [
           "A global passive adversary watching both ends of a link can correlate burst timing — Tor/I2P will mitigate, not eliminate.",
           "Groth16 over BLS12-381 is not post-quantum. Past privacy survives a future quantum break; new transactions after that break would not.",
           "A compromised spending key has no recovery backdoor. Custody is yours, with everything that implies.",
-          "Reusing zpriv addresses across distinct off-chain identities can leak associations between them.",
+          "Reusing zka1 receive addresses across distinct off-chain identities can leak associations between them.",
           "The network never provides involuntary unmasking — only the user holding the key can reveal a transaction.",
           "Block time is 120 s. Don't treat the first confirmation as final; wait several blocks for irreversibility.",
         ].map((x) => (
@@ -883,7 +890,7 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[hsl(160_84%_55%)]" />
             </span>
             <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-foreground">
-              Mainnet · v0.1.0
+              {MAINNET_NAME} · Wallets live
             </span>
           </div>
           <span className="hidden md:block h-4 w-px bg-border" />
@@ -896,28 +903,29 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
         <div className="space-y-4">
           <p className="text-base md:text-lg text-muted-foreground font-light leading-relaxed">
             <span className="text-foreground">ZSilent Core</span> is the desktop wallet for ZOKA.
-            It bundles the node daemon, supervises sync, runs the miner with one toggle,
-            and gives you a private send / receive interface — all without ever asking for
-            an email, a phone number or a KYC document.
+            <span className="text-foreground"> ZKAPriv</span> is the Android wallet. Both are
+            self-custodial clients for Mainnet Zenith and do not ask for an email, a phone
+            number or a KYC document.
           </p>
           <p className="text-sm text-muted-foreground font-light">
-            Built with Compose Desktop. v0.1.0 ships across Windows and Linux. Installers are
-            produced by GitHub Actions on each tagged release; the build steps are
-            reproducible from source.
+            ZSilent Core {ZSILENT_VERSION} ships as Windows MSI and Linux DEB. ZKAPriv
+            {ZKAPRIV_VERSION} ships as an Android APK. These assets are published from tagged
+            GitHub releases and can be verified against the release metadata.
           </p>
         </div>
 
         {/* OS download cards */}
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            { id: "win", name: "Windows", desc: "10 · 11 · Server", badge: ".msi", Icon: Monitor, status: "available" },
-            { id: "linux", name: "Linux", desc: "Debian / Ubuntu / Fedora", badge: ".deb / .rpm", Icon: Boxes, status: "available" },
+            { id: "win", name: "ZSilent Core for Windows", desc: "Desktop wallet · Windows 10 / 11 / Server", badge: `${ZSILENT_VERSION} · .msi`, href: WALLET_RELEASES, Icon: Monitor },
+            { id: "linux", name: "ZSilent Core for Linux", desc: "Desktop wallet · Debian / Ubuntu", badge: `${ZSILENT_VERSION} · .deb`, href: WALLET_RELEASES, Icon: Boxes },
+            { id: "android", name: "ZKAPriv for Android", desc: "Mobile wallet APK · armeabi-v7a + arm64-v8a", badge: `${ZKAPRIV_VERSION} · .apk`, href: MOBILE_RELEASES, Icon: Smartphone },
           ].map((w) => {
             const Icon = w.Icon;
             return (
               <a
                 key={w.id}
-                href={WALLET_RELEASES}
+                href={w.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative flex flex-col justify-between p-5 border border-border hover:border-foreground transition-colors min-h-[180px]"
@@ -960,13 +968,13 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
           <div className="p-5 border border-border border-dashed">
             <div className="flex items-center justify-between flex-wrap gap-3">
               <div>
-                <div className="font-mono text-[11px] tracking-[0.25em] uppercase text-foreground">Mobile</div>
+                <div className="font-mono text-[11px] tracking-[0.25em] uppercase text-foreground">iOS</div>
                 <div className="text-sm text-muted-foreground font-light mt-1">
-                  Native Android and iOS clients are not built yet. Desktop comes first.
+                  Android is live through ZKAPriv. iOS is not shipped yet.
                 </div>
               </div>
               <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-muted-foreground/80">
-                Not started
+                Planned
               </span>
             </div>
           </div>
@@ -978,9 +986,10 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
             Verify what you downloaded
           </div>
           <p className="text-sm text-muted-foreground font-light leading-relaxed mb-4">
-            Each release ships with SHA-256 checksums on the GitHub Releases page. You can
-            also reproduce the build yourself from <a href={WALLET_REPO} className="text-foreground underline-offset-4 hover:underline" target="_blank" rel="noopener noreferrer">ZokaNetwork/zsilent-core</a>{" "}
-            — the workflow in <code className="font-mono text-foreground/90">.github/workflows/release.yml</code> is the same one that produces the published binaries.
+            Use the tagged GitHub release pages for the current builds. The desktop release is
+            produced by <a href={WALLET_REPO} className="text-foreground underline-offset-4 hover:underline" target="_blank" rel="noopener noreferrer">ZokaNetwork/zsilent-core</a>{" "}
+            and the Android release by <a href={MOBILE_REPO} className="text-foreground underline-offset-4 hover:underline" target="_blank" rel="noopener noreferrer">ZokaNetwork/zkapriv</a>.
+            Both release records expose SHA-256 digests for their uploaded assets.
           </p>
           <a
             href={WALLET_RELEASES}
@@ -989,7 +998,17 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
             className="inline-flex items-center gap-3 px-5 py-3 border border-border hover:border-foreground transition-colors font-mono text-[11px] tracking-[0.25em] uppercase text-foreground"
           >
             <Github className="w-4 h-4" />
-            Open latest release
+            Open desktop release
+            <span className="opacity-60">↗</span>
+          </a>
+          <a
+            href={MOBILE_RELEASES}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-0 mt-3 md:ml-3 md:mt-0 inline-flex items-center gap-3 px-5 py-3 border border-border hover:border-foreground transition-colors font-mono text-[11px] tracking-[0.25em] uppercase text-foreground"
+          >
+            <Github className="w-4 h-4" />
+            Open Android release
             <span className="opacity-60">↗</span>
           </a>
         </div>
@@ -1080,6 +1099,62 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
           </a>
         </div>
 
+        {/* Search modes */}
+        <div>
+          <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-muted-foreground mb-5">
+            Search modes
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {[
+              {
+                Icon: Boxes,
+                title: "Blocks",
+                desc: "Open a block by height or block hash. The explorer shows height, timestamp, hash, difficulty, transaction counts and private transaction hashes when they are anchored.",
+              },
+              {
+                Icon: Hash,
+                title: "Transactions",
+                desc: "Search public transaction hashes and private transaction hashes. Private tx pages keep sender, receiver and amount shielded; they expose only confirmation and proof metadata.",
+              },
+              {
+                Icon: Lock,
+                title: "Private-safe records",
+                desc: "Use prefixed lookups such as commitment:, nullifier:, root:, private-tx: or tx:. The record view reports existence/block context when available, not owners or balances.",
+              },
+              {
+                Icon: EyeOff,
+                title: "Wallet addresses",
+                desc: "Search a public zka1... receive address to open the privacy-safe address view. The explorer does not reveal address history, balances, senders or receivers.",
+              },
+              {
+                Icon: KeyRound,
+                title: "Scan key rewards",
+                desc: "A 64-hex scan key can open the mining-reward scanner. That scan runs in the browser, derives the private address locally and compares public coinbase commitments; the key is not sent to the server.",
+              },
+              {
+                Icon: ScanLine,
+                title: "Live network state",
+                desc: "The home view tracks chain height, recent blocks, recent private activity by hash and public status metrics without turning the explorer into a surveillance surface.",
+              },
+            ].map((b) => {
+              const Icon = b.Icon;
+              return (
+                <div key={b.title} className="p-5 border border-border">
+                  <Icon className="w-5 h-5 text-foreground/80 mb-3" />
+                  <div className="text-base text-foreground font-light">{b.title}</div>
+                  <div className="text-sm text-muted-foreground font-light mt-2 leading-relaxed">
+                    {b.desc}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <p className="text-xs text-muted-foreground/70 mt-4 font-light">
+            Full private payment history and spendable balance remain wallet-side. Use ZSilent Core
+            or ZKAPriv for full wallet recovery and transaction history.
+          </p>
+        </div>
+
         {/* What you'll see */}
         <div className="grid gap-4 md:grid-cols-3">
           {[
@@ -1126,7 +1201,7 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
     body: (
       <div className="space-y-12">
         <p className="text-base md:text-lg text-muted-foreground font-light leading-relaxed">
-          ZOKA is split into four public repositories. Read the code, run the workflows,
+          ZOKA is split into five public repositories. Read the code, run the workflows,
           build your own binary, fork what you need. Every release is reproducible from these
           sources.
         </p>
@@ -1142,8 +1217,14 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
             {
               name: "ZokaNetwork/zsilent-core",
               tag: "Wallet · Kotlin Compose Desktop",
-              desc: "Cross-platform desktop wallet. Bundles zoka + zokahd, drives onboarding, mining, send / receive. Releases under v0.1.0+.",
+              desc: "Cross-platform desktop wallet. Bundles zoka + zokahd, drives onboarding, mining, send / receive. Current public release: v1.1.2.",
               href: WALLET_REPO,
+            },
+            {
+              name: "ZokaNetwork/zkapriv",
+              tag: "Wallet · Android",
+              desc: "Self-custodial Android wallet for private send / receive, seed restore, balance recovery and recent activity. Current public release: v1.0.0.",
+              href: MOBILE_REPO,
             },
             {
               name: "ZokaNetwork/zokaexplorer",

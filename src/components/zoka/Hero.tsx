@@ -18,10 +18,10 @@ const Hero = ({ onCta }: HeroProps) => (
     {/* Top-left headline cluster — leaves the central nodes visible */}
     <div className="absolute top-24 md:top-28 left-6 md:left-10 z-10 max-w-md animate-fade-in">
       <h1 className="text-[clamp(1.5rem,3.2vw,2.75rem)] font-extralight leading-[1.05] tracking-[-0.03em]">
-        <span className="zk-melt inline-block">A network without witnesses.</span>
+        <span className="zk-melt inline-block">ZOKA Network</span>
         <br />
         <span className="zk-melt inline-block text-gradient font-light mt-2 text-[clamp(1rem,2vw,1.6rem)] tracking-[0.1em] uppercase font-mono" style={{ animationDelay: "1.5s" }}>
-          Zero-Knowledge Proofs
+          Mainnet Zenith
         </span>
       </h1>
     </div>
@@ -31,10 +31,10 @@ const Hero = ({ onCta }: HeroProps) => (
       <button
         onClick={onCta}
         className="group inline-flex items-center gap-3 px-6 py-3 border border-foreground/80 hover:bg-foreground hover:text-background transition-colors font-mono text-[10px] tracking-[0.3em] uppercase text-foreground"
-        aria-label="Download ZSilent wallet"
+        aria-label="Download ZOKA wallets"
       >
         <span className="w-1.5 h-1.5 rounded-full bg-foreground" />
-        Mainnet · Get ZSilent
+        Mainnet Zenith · Downloads
         <span className="opacity-70 group-hover:translate-x-1 transition-transform">→</span>
       </button>
     </div>

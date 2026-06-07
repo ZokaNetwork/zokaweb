@@ -10,9 +10,9 @@ If you want the full technical document, with the math and the protocol layout, 
 
 ---
 
-## What is ZOKA?
+## What is ZOKA Network?
 
-ZOKA is an internet-wide payment network where every payment is private by default. Nobody
+ZOKA Network is an internet-wide payment network where every payment is private by default. Nobody
 on the network — not a stranger looking at the blockchain, not a competitor, not a regulator,
 not even the engineers who built the protocol — can see who sent money to whom, or how much.
 
@@ -94,18 +94,28 @@ anyone. ZKA is denominated to six decimal places: 1 ZKA = 1,000,000 atoms.
 
 ## How can you participate?
 
-You can use ZOKA in three ways, from easiest to most involved.
+You can use ZOKA in four ways, from easiest to most involved.
 
-### 1. Install the desktop wallet (easiest)
+### 1. Install the desktop wallet
 
 Download **ZSilent Core** for Windows or Linux from the official release page:
 
-> [github.com/ZokaNetwork/zsilent-core/releases/latest](https://github.com/ZokaNetwork/zsilent-core/releases/latest)
+> [github.com/ZokaNetwork/zsilent-core/releases/tag/v1.1.2](https://github.com/ZokaNetwork/zsilent-core/releases/tag/v1.1.2)
 
-It includes the node, the wallet, and a one-click mining toggle. No installation of Rust, no
-terminal, no configuration. Open it, set a password, and you have a private wallet.
+ZSilent Core v1.1.2 includes the node, the wallet, and a one-click mining toggle. No
+installation of Rust, no terminal, no manual configuration. Open it, set a password, and you
+have a private wallet.
 
-### 2. Run a node from the terminal (intermediate)
+### 2. Install the Android wallet
+
+Download **ZKAPriv** for Android from the official release page:
+
+> [github.com/ZokaNetwork/zkapriv/releases/tag/v1.0.0](https://github.com/ZokaNetwork/zkapriv/releases/tag/v1.0.0)
+
+ZKAPriv v1.0.0 is a self-custodial APK for private send / receive, seed restore, balance
+recovery and recent activity on Mainnet Zenith.
+
+### 3. Run a node from the terminal
 
 If you have a server or just prefer the command line, build and run the open-source node:
 
@@ -118,9 +128,9 @@ cargo build --release --features randomx --bin zoka --bin zokahd
 
 The README in the repo has the full guide.
 
-### 3. Build from source and contribute (advanced)
+### 4. Build from source and contribute
 
-The full network is in Rust. Privacy-focused work, anonymous transport on Tor/I2P, mobile
+The full network is in Rust. Privacy-focused work, anonymous transport on Tor/I2P, iOS
 clients, and post-quantum migration are all on the roadmap. Pull requests are welcome.
 
 ---
@@ -150,14 +160,15 @@ system is selling something.
 
 ---
 
-## Status today (v0.1.0)
+## Status today (Mainnet Zenith)
 
 - Mainnet is **live** with a public bootstrap node.
-- The desktop wallet (ZSilent Core) is **released** for Windows and Linux.
+- The desktop wallet (ZSilent Core v1.1.2) is **released** for Windows and Linux.
+- The Android wallet (ZKAPriv v1.0.0) is **released** as an APK.
 - The block explorer is **online**.
 - Tor / I2P anonymous transport is **planned**, not yet running by default.
 - An external cryptographic audit is **planned**, not yet completed.
-- macOS and mobile wallets are **planned** for later releases.
+- macOS and iOS wallets are **planned** for later releases.
 
 This is a real, working, public network you can join today, and a project that still has
 work ahead of it. Both things are true at the same time, and we are not going to pretend
@@ -170,7 +181,8 @@ otherwise.
 - **Whitepaper** (technical, 12 pages): [/ZOKA_Whitepaper_v1.0.pdf](/ZOKA_Whitepaper_v1.0.pdf)
 - **Code on GitHub**: [github.com/ZokaNetwork](https://github.com/ZokaNetwork)
 - **Block explorer**: see the home page of zoka.network for the live link
-- **Desktop wallet downloads**: [github.com/ZokaNetwork/zsilent-core/releases](https://github.com/ZokaNetwork/zsilent-core/releases)
+- **Desktop wallet downloads**: [github.com/ZokaNetwork/zsilent-core/releases/tag/v1.1.2](https://github.com/ZokaNetwork/zsilent-core/releases/tag/v1.1.2)
+- **Android wallet downloads**: [github.com/ZokaNetwork/zkapriv/releases/tag/v1.0.0](https://github.com/ZokaNetwork/zkapriv/releases/tag/v1.0.0)
 
 > Verify what is true. Reveal nothing else.
 
