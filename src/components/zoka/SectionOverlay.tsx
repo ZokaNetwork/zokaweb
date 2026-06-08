@@ -20,6 +20,7 @@ const ZKAPRIV_VERSION = "v1.0.0";
 const WALLET_RELEASES = `${WALLET_REPO}/releases/tag/${ZSILENT_VERSION}`;
 const MOBILE_RELEASES = `${MOBILE_REPO}/releases/tag/${ZKAPRIV_VERSION}`;
 const EXPLORER_URL = "https://www.zokascan.cc";
+const DOCS_URL = "https://zokanetwork.gitbook.io/";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  Tech section — 6 consolidated blocks + comparison + roadmap + honest limits
@@ -1190,8 +1191,97 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
       </div>
     ),
   },
+  docs: {
+    eyebrow: "V. DOCS · LEARN THE NETWORK",
+    title: (
+      <>
+        Read how it works,<br />
+        <span className="text-muted-foreground">straight from the source.</span>
+      </>
+    ),
+    body: (
+      <div className="space-y-12">
+        <p className="text-base md:text-lg text-muted-foreground font-light leading-relaxed">
+          The ZOKA documentation covers the project vision, the live{" "}
+          <span className="text-foreground">{MAINNET_NAME}</span> network, the privacy
+          model, tokenomics, mining, both wallets, the explorer, and the developer
+          surfaces — kept aligned with the code that actually ships.
+        </p>
+
+        {/* CTA */}
+        <div className="flex flex-wrap items-center gap-4">
+          <a
+            href={DOCS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-3 px-6 py-3 border border-foreground/80 hover:bg-foreground hover:text-background transition-colors font-mono text-[11px] tracking-[0.3em] uppercase text-foreground"
+          >
+            <BookOpen className="w-4 h-4" />
+            Open documentation
+            <span className="opacity-70 group-hover:translate-x-1 transition-transform">↗</span>
+          </a>
+          <a
+            href={NETWORK_REPO}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-3 px-6 py-3 border border-border hover:border-foreground transition-colors font-mono text-[11px] tracking-[0.3em] uppercase text-foreground"
+          >
+            <Github className="w-4 h-4" />
+            Doc sources on GitHub
+            <span className="opacity-60">↗</span>
+          </a>
+        </div>
+
+        {/* What's inside */}
+        <div>
+          <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-muted-foreground mb-5">
+            What's inside
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {[
+              {
+                Icon: Server,
+                title: "Network & consensus",
+                desc: `${MAINNET_NAME} overview, RandomX proof-of-work (zoka-randomx-v1), supply and emission (23,000,000 ZKA max, 12 ZKA initial reward, halving every 1,051,200 blocks).`,
+              },
+              {
+                Icon: Lock,
+                title: "Privacy model",
+                desc: "Why privacy matters, what's hidden vs. public on-chain, zero-knowledge proofs, and the threat model behind self-custodial private payments.",
+              },
+              {
+                Icon: Smartphone,
+                title: "Wallets",
+                desc: "ZKAPriv (Android) and ZSilent Core (desktop): installation, security model, backup and recovery, node and miner control.",
+              },
+              {
+                Icon: Terminal,
+                title: "Developers",
+                desc: "Repository map, architecture overview, build-from-source instructions and the public RPC API surface.",
+              },
+            ].map((b) => {
+              const Icon = b.Icon;
+              return (
+                <div key={b.title} className="p-5 border border-border">
+                  <Icon className="w-5 h-5 text-foreground/80 mb-3" />
+                  <div className="text-base text-foreground font-light">{b.title}</div>
+                  <div className="text-sm text-muted-foreground font-light mt-2 leading-relaxed">
+                    {b.desc}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <p className="font-mono text-xs text-muted-foreground/70">
+          zokanetwork.gitbook.io
+        </p>
+      </div>
+    ),
+  },
   github: {
-    eyebrow: "V. GITHUB · OPEN SOURCE",
+    eyebrow: "VI. GITHUB · OPEN SOURCE",
     title: (
       <>
         Open source,<br />

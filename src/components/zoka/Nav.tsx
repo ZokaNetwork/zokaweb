@@ -1,12 +1,13 @@
 import ThemeToggle from "./ThemeToggle";
 
-export type SectionKey = "about" | "tech" | "download" | "explorer" | "github";
+export type SectionKey = "about" | "tech" | "download" | "explorer" | "docs" | "github";
 
 const links: { key: SectionKey; label: string }[] = [
   { key: "about", label: "About" },
   { key: "tech", label: "Tech" },
   { key: "download", label: "Download" },
   { key: "explorer", label: "Explorer" },
+  { key: "docs", label: "Docs" },
   { key: "github", label: "GitHub" },
 ];
 
