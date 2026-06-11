@@ -1,4 +1,57 @@
+import { useState, useEffect } from "react";
 import QuantumField from "./QuantumField";
+
+// ─────────────────────────────────────────────────────────────────────────────
+//  Countdown — remove this component and its usage after 2026-06-30.
+// ─────────────────────────────────────────────────────────────────────────────
+const LAUNCH = new Date("2026-06-30T00:00:00-05:00");
+
+function useCountdown(target: Date) {
+  const calc = () => {
+    const diff = Math.max(0, target.getTime() - Date.now());
+    return {
+      days:    Math.floor(diff / 86_400_000),
+      hours:   Math.floor((diff % 86_400_000) / 3_600_000),
+      minutes: Math.floor((diff % 3_600_000)  / 60_000),
+      seconds: Math.floor((diff % 60_000)     / 1_000),
+      done: diff === 0,
+    };
+  };
+  const [remaining, setRemaining] = useState(calc);
+  useEffect(() => {
+    const t = setInterval(() => setRemaining(calc()), 1_000);
+    return () => clearInterval(t);
+  }, []);
+  return remaining;
+}
+
+const LaunchCountdown = () => {
+  const cd = useCountdown(LAUNCH);
+  if (cd.done) return null;
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return (
+    <div className="mt-7">
+      <div className="font-mono text-[9px] tracking-[0.38em] uppercase text-muted-foreground mb-2">
+        Mainnet Zenith — launch in
+      </div>
+      <div className="font-mono text-2xl md:text-3xl font-extralight text-foreground tracking-[0.12em] tabular-nums">
+        {pad(cd.days)}
+        <span className="text-muted-foreground text-lg mx-0.5">d</span>
+        {" "}{pad(cd.hours)}
+        <span className="text-muted-foreground text-lg mx-0.5">h</span>
+        {" "}{pad(cd.minutes)}
+        <span className="text-muted-foreground text-lg mx-0.5">m</span>
+        {" "}{pad(cd.seconds)}
+        <span className="text-muted-foreground text-lg mx-0.5">s</span>
+      </div>
+      <div className="font-mono text-[9px] tracking-[0.3em] uppercase text-muted-foreground/60 mt-2">
+        30 Jun 2026
+      </div>
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 interface HeroProps {
   onCta: () => void;
@@ -24,6 +77,7 @@ const Hero = ({ onCta }: HeroProps) => (
           Mainnet Zenith
         </span>
       </h1>
+      <LaunchCountdown />
     </div>
 
     {/* Bottom-left CTA — drives users to the downloads section */}
