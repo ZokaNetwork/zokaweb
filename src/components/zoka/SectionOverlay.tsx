@@ -15,10 +15,11 @@ const MOBILE_REPO = `${REPO_BASE}/zkapriv`;
 const EXPLORER_REPO = `${REPO_BASE}/zokaexplorer`;
 const WEB_REPO = `${REPO_BASE}/zokaweb`;
 const MAINNET_NAME = "Mainnet Zenith";
-const ZSILENT_VERSION = "v1.1.2";
+const ZSILENT_VERSION = "v1.1.4";
 const ZKAPRIV_VERSION = "v1.0.0";
-const WALLET_RELEASES = `${WALLET_REPO}/releases/tag/${ZSILENT_VERSION}`;
-const MOBILE_RELEASES = `${MOBILE_REPO}/releases/tag/${ZKAPRIV_VERSION}`;
+// /releases/latest always redirects to the newest tagged release — no manual update needed.
+const WALLET_RELEASES = `${WALLET_REPO}/releases/latest`;
+const MOBILE_RELEASES = `${MOBILE_REPO}/releases/latest`;
 const EXPLORER_URL = "https://www.zokascan.cc";
 const DOCS_URL = "https://zokanetwork.gitbook.io/";
 
@@ -254,7 +255,7 @@ const techBlocks: TechBlock[] = [
               { id: "i", name: "Internal devnet", desc: "ZK circuits · single-operator setup · local validators · CLI.", status: "Done" },
               { id: "ii", name: "Public testnet", desc: "Permissionless mining · CRS digest shipped · network manifest signed.", status: "Done" },
               { id: "iii", name: "ZOKA Network: Mainnet Zenith", desc: "DigitalOcean bootstrap, public RPC fallback, permissionless mining and public block explorer.", status: "Live" },
-              { id: "iv", name: "ZSilent Core v1.1.2", desc: "Desktop wallet release verified on GitHub with Windows MSI and Linux DEB installers.", status: "Live" },
+              { id: "iv", name: `ZSilent Core ${ZSILENT_VERSION}`, desc: "Desktop wallet release verified on GitHub with Windows MSI and Linux DEB installers.", status: "Live" },
               { id: "v", name: "ZKAPriv Android v1.0.0", desc: "Android APK release verified on GitHub; private send / receive, restore, balance and recent activity are live.", status: "Live" },
             ],
           },
@@ -909,18 +910,18 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
             number or a KYC document.
           </p>
           <p className="text-sm text-muted-foreground font-light">
-            ZSilent Core {ZSILENT_VERSION} ships as Windows MSI and Linux DEB. ZKAPriv
-            {ZKAPRIV_VERSION} ships as an Android APK. These assets are published from tagged
-            GitHub releases and can be verified against the release metadata.
+            ZSilent Core ships as Windows MSI and Linux DEB. ZKAPriv ships as an Android APK.
+            These assets are published from tagged GitHub releases and can be verified against
+            the release metadata.
           </p>
         </div>
 
         {/* OS download cards */}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            { id: "win", name: "ZSilent Core for Windows", desc: "Desktop wallet · Windows 10 / 11 / Server", badge: `${ZSILENT_VERSION} · .msi`, href: WALLET_RELEASES, Icon: Monitor },
-            { id: "linux", name: "ZSilent Core for Linux", desc: "Desktop wallet · Debian / Ubuntu", badge: `${ZSILENT_VERSION} · .deb`, href: WALLET_RELEASES, Icon: Boxes },
-            { id: "android", name: "ZKAPriv for Android", desc: "Mobile wallet APK · armeabi-v7a + arm64-v8a", badge: `${ZKAPRIV_VERSION} · .apk`, href: MOBILE_RELEASES, Icon: Smartphone },
+            { id: "win", name: "ZSilent Core for Windows", desc: "Desktop wallet · Windows 10 / 11 / Server", badge: "latest · .msi", href: WALLET_RELEASES, Icon: Monitor },
+            { id: "linux", name: "ZSilent Core for Linux", desc: "Desktop wallet · Debian / Ubuntu", badge: "latest · .deb", href: WALLET_RELEASES, Icon: Boxes },
+            { id: "android", name: "ZKAPriv for Android", desc: "Mobile wallet APK · armeabi-v7a + arm64-v8a", badge: "latest · .apk", href: MOBILE_RELEASES, Icon: Smartphone },
           ].map((w) => {
             const Icon = w.Icon;
             return (
@@ -1307,13 +1308,13 @@ const content: Record<SectionKey, { eyebrow: string; title: React.ReactNode; bod
             {
               name: "ZokaNetwork/zsilent-core",
               tag: "Wallet · Kotlin Compose Desktop",
-              desc: "Cross-platform desktop wallet. Bundles zoka + zokahd, drives onboarding, mining, send / receive. Current public release: v1.1.2.",
+              desc: "Cross-platform desktop wallet. Bundles zoka + zokahd, drives onboarding, mining, send / receive. Latest release always at /releases/latest.",
               href: WALLET_REPO,
             },
             {
               name: "ZokaNetwork/zkapriv",
               tag: "Wallet · Android",
-              desc: "Self-custodial Android wallet for private send / receive, seed restore, balance recovery and recent activity. Current public release: v1.0.0.",
+              desc: "Self-custodial Android wallet for private send / receive, seed restore, balance recovery and recent activity. Latest release always at /releases/latest.",
               href: MOBILE_REPO,
             },
             {
