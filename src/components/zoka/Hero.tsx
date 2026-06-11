@@ -30,7 +30,7 @@ const LaunchCountdown = () => {
   if (cd.done) return null;
   const pad = (n: number) => String(n).padStart(2, "0");
   return (
-    <div className="mt-7">
+    <div className="mb-5">
       <div className="font-mono text-[9px] tracking-[0.38em] uppercase text-muted-foreground mb-2">
         Mainnet Zenith — launch in
       </div>
@@ -77,11 +77,11 @@ const Hero = ({ onCta }: HeroProps) => (
           Mainnet Zenith
         </span>
       </h1>
-      <LaunchCountdown />
     </div>
 
     {/* Bottom-left CTA — drives users to the downloads section */}
     <div className="absolute bottom-16 md:bottom-20 left-6 md:left-10 z-10 animate-fade-in">
+      <LaunchCountdown />
       <button
         onClick={onCta}
         className="group inline-flex items-center gap-3 px-6 py-3 border border-foreground/80 hover:bg-foreground hover:text-background transition-colors font-mono text-[10px] tracking-[0.3em] uppercase text-foreground"
