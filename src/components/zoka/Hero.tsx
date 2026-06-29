@@ -3,8 +3,10 @@ import QuantumField from "./QuantumField";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  Countdown — remove this component and its usage after 2026-06-30.
+//  Target: 2026-06-29 15:00 UTC == 00:00 JST June 30 == 12:00 ART June 29,
+//  matching the publicly announced launch time.
 // ─────────────────────────────────────────────────────────────────────────────
-const LAUNCH = new Date("2026-06-30T00:00:00-05:00");
+const LAUNCH = new Date("2026-06-29T15:00:00Z");
 
 function useCountdown(target: Date) {
   const calc = () => {
